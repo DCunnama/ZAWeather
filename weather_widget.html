@@ -26,7 +26,10 @@
   .forecast { display: flex; gap: 6px; overflow-x: auto; margin-top: 10px; }
   .forecast-day { flex: 1 0 40px; text-align: center; }
   .forecast-day .icon { font-size: 1.2em; display: block; }
-  iframe { width: 100%; border: none; height: 360px; }
+  .live-table { display: flex; gap: 10px; }
+  .live-table > div { flex: 1; }
+  .live-table div div { margin-bottom: 4px; }
+  iframe { width: 100%; border: none; height: 360px; display: block; margin: 0 auto; }
 </style>
 </head>
 <body>
@@ -35,21 +38,26 @@
     <span class="icon" id="current-icon"></span>
     <span id="temperature" class="value"></span>°C
   </div>
-  <div>Wind: <span id="wind" class="value"></span> km/h</div>
-  <div>Humidity: <span id="humidity" class="value"></span>%</div>
-  <div>Cloud Cover: <span id="cloud" class="value"></span>%</div>
-  <div>Sunrise: <span id="sunrise" class="value"></span></div>
-  <div>Sunset: <span id="sunset" class="value"></span></div>
-  <div>Moonrise: <span id="moonrise" class="value"></span></div>
-  <div>Moonset: <span id="moonset" class="value"></span></div>
-  <div>Moon Phase: <span id="moonphase-icon" class="icon"></span><span id="moonphase" class="value"></span></div>
-  <div>Moon Illumination: <span id="moonillum" class="value"></span>%</div>
+  <div class="live-table">
+    <div>
+      <div>Wind: <span id="wind" class="value"></span> km/h</div>
+      <div>Humidity: <span id="humidity" class="value"></span>%</div>
+      <div>Cloud Cover: <span id="cloud" class="value"></span>%</div>
+      <div>Sunrise: <span id="sunrise" class="value"></span></div>
+      <div>Sunset: <span id="sunset" class="value"></span></div>
+    </div>
+    <div>
+      <div>Moonrise: <span id="moonrise" class="value"></span></div>
+      <div>Moonset: <span id="moonset" class="value"></span></div>
+      <div>Moon Phase: <span id="moonphase-icon" class="icon"></span><span id="moonphase" class="value"></span></div>
+      <div>Moon Illumination: <span id="moonillum" class="value"></span>%</div>
+    </div>
+  </div>
   <div id="forecast" class="forecast"></div>
 </div>
 
-<h2>Radar (Southern Africa)</h2>
 <iframe
-  src="https://embed.windy.com/embed2.html?lat=-32.3587&lon=20.6203&zoom=4&level=surface&overlay=radar&product=radar&menu=&message=&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&detailLat=-32.3587&detailLon=20.6203&metricWind=default&metricTemp=default&radarRange=-1&play=1"
+  src="https://embed.windy.com/embed2.html?lat=-32.3587&amp;lon=20.6203&amp;zoom=4&amp;level=surface&amp;overlay=clouds&amp;product=ecmwf&amp;menu=&amp;message=&amp;marker=&amp;calendar=now&amp;pressure=&amp;type=map&amp;location=coordinates&amp;detail=&amp;detailLat=-32.3587&amp;detailLon=20.6203&amp;metricWind=default&amp;metricTemp=default&amp;radarRange=-1&amp;play=1"
   allowfullscreen="allowfullscreen">
 </iframe>
 
@@ -68,7 +76,11 @@ function fetchWeather() {
       document.getElementById('wind').textContent = current.windspeed;
       document.getElementById('current-icon').textContent = weatherIcon(current.weathercode);
 
-      const idx = data.hourly.time.indexOf(current.time);
+      let idx = data.hourly.time.indexOf(current.time);
+      if (idx === -1) {
+        const hour = current.time.slice(0, 13) + ':00';
+        idx = data.hourly.time.indexOf(hour);
+      }
       if (idx >= 0) {
         document.getElementById('humidity').textContent = data.hourly.relative_humidity_2m[idx];
         document.getElementById('cloud').textContent = data.hourly.cloudcover[idx];
