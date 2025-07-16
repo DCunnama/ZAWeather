@@ -26,10 +26,11 @@
   .forecast { display: flex; gap: 6px; overflow-x: auto; margin-top: 10px; }
   .forecast-day { flex: 1 0 40px; text-align: center; }
   .forecast-day .icon { font-size: 1.2em; display: block; }
+  .cloud-forecast { font-size: 0.9em; margin-top: 4px; }
   .live-table { display: flex; gap: 10px; }
   .live-table > div { flex: 1; }
   .live-table div div { margin-bottom: 4px; }
-  iframe { width: 100%; border: none; height: 360px; display: block; margin: 0 auto; }
+  iframe { width: 100%; border: none; height: 360px; display: block; margin: 20px auto 0; }
 </style>
 </head>
 <body>
@@ -54,6 +55,7 @@
     </div>
   </div>
   <div id="forecast" class="forecast"></div>
+  <div id="cloud-forecast" class="forecast cloud-forecast"></div>
 </div>
 
 <iframe
@@ -67,7 +69,7 @@ const lat = -32.35871980906897;
 const lon = 20.62026635302537;
 
 function fetchWeather() {
-  const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&hourly=relative_humidity_2m,cloudcover&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=auto`;
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&hourly=relative_humidity_2m,cloudcover&daily=weathercode,temperature_2m_max,temperature_2m_min,cloudcover_mean&timezone=auto`;
   fetch(url)
     .then(resp => resp.json())
     .then(data => {
@@ -94,6 +96,15 @@ function fetchWeather() {
         div.className = 'forecast-day';
         div.innerHTML = `<span>${day.toLocaleDateString(undefined,{weekday:'short'})}</span><span class="icon">${weatherIcon(data.daily.weathercode[i])}</span><span>${Math.round(data.daily.temperature_2m_max[i])}°</span>`;
         fc.appendChild(div);
+      }
+
+      const cloudFc = document.getElementById('cloud-forecast');
+      cloudFc.innerHTML = '';
+      for (let i = 0; i < data.daily.time.length; i++) {
+        const div = document.createElement('div');
+        div.className = 'forecast-day';
+        div.textContent = `☁️ ${Math.round(data.daily.cloudcover_mean[i])}%`;
+        cloudFc.appendChild(div);
       }
 
       const now = new Date(current.time);
