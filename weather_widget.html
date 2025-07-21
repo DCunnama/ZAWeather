@@ -5,7 +5,8 @@
 <title>ZuluAlpha Weather Widget</title>
 <style>
   body { font-family: Arial, sans-serif; margin: 0; padding: 10px; }
-  .weather-widget { max-width: 360px; border: 1px solid #ccc; padding: 10px; border-radius: 8px; }
+  .zaweather-container { max-width: 360px; width: 100%; margin: 0 auto; }
+  .weather-widget { width: 100%; border: 1px solid #ccc; padding: 10px; border-radius: 8px; box-sizing: border-box; }
   .current-btn {
     display: flex;
     align-items: center;
@@ -40,6 +41,7 @@
 </style>
 </head>
 <body>
+<div class="zaweather-container">
 <div class="weather-widget">
   <div id="current" class="current-btn">
     <span class="icon" id="current-icon"></span>
@@ -68,6 +70,7 @@
   src="https://embed.windy.com/embed2.html?lat=-32.3587&amp;lon=20.6203&amp;zoom=4&amp;level=surface&amp;overlay=clouds&amp;product=ecmwf&amp;menu=&amp;message=&amp;marker=&amp;calendar=now&amp;pressure=&amp;type=map&amp;location=coordinates&amp;detail=&amp;detailLat=-32.3587&amp;detailLon=20.6203&amp;metricWind=default&amp;metricTemp=default&amp;radarRange=-1&amp;play=1"
   allowfullscreen="allowfullscreen">
 </iframe>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/suncalc/1.9.0/suncalc.min.js"></script>
 <script>
