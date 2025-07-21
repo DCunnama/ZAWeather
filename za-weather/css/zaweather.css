@@ -1,8 +1,15 @@
-.weather-widget {
+.zaweather-container {
   max-width: 360px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.weather-widget {
+  width: 100%;
   border: 1px solid #ccc;
   padding: 10px;
   border-radius: 8px;
+  box-sizing: border-box;
 }
 .current-btn {
   display: flex;
