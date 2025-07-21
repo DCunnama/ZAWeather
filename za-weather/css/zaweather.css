@@ -1,0 +1,31 @@
+.weather-widget {
+  max-width: 360px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 8px;
+}
+.current-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  background: #f0f8ff;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  font-size: 1.4em;
+  cursor: pointer;
+}
+.current-btn .icon {
+  font-size: 2em;
+  margin-right: 10px;
+}
+.weather-widget h2 { font-size: 1.2em; margin: 10px 0; }
+.weather-widget .value { font-weight: bold; }
+.forecast { display: flex; gap: 6px; overflow-x: auto; margin-top: 10px; }
+.forecast-day { flex: 1 0 40px; text-align: center; }
+.forecast-day .icon { font-size: 1.2em; display: block; }
+.cloud-forecast { font-size: 0.9em; margin-top: 4px; }
+.live-table { display: flex; gap: 10px; }
+.live-table > div { flex: 1; }
+.live-table div div { margin-bottom: 4px; }
+iframe { width: 100%; border: none; height: 360px; display: block; margin: 20px auto 0; }
